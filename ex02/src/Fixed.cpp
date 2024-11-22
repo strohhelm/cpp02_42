@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 11:57:01 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/11/22 19:40:13 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/11/22 20:29:28 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ Fixed::Fixed(const int in)
 //Float constructor
 Fixed::Fixed(const float input)
 {
-	fixed_point_nb_value = static_cast<int>(round(input * 256));
+	fixed_point_nb_value = static_cast<int>(round(input * (1<<fractional_bits)));
 	// std::cout<<"Float constructor called"<<std::endl;
 }
 /*----------------------------------------------------------------------------*/
@@ -54,6 +54,7 @@ Fixed::~Fixed()
 	// std::cout<<"Default destructor called!"<<std::endl;
 }
 
+
 /* ************************************************************************** */
 /*		OPERATOR OVERLOADS													  */
 /* ************************************************************************** */
@@ -67,69 +68,92 @@ Fixed& Fixed::operator=(const Fixed &orig)
 	return *this;
 }
 /*----------------------------------------------------------------------------*/
-
 // Insertion assignment operator overload
 std::ostream &operator<<(std::ostream &ostream, const Fixed &orig)
 {
 	ostream << orig.toFloat();
 	return ostream;
 }
+
+
 /*----------------------------------------------------------------------------*/
 //	<
 bool Fixed::operator<(const Fixed &a) const{
 	return(this->fixed_point_nb_value < a.getRawBits());
 }
+
+
 /*----------------------------------------------------------------------------*/
 //	<=
 bool Fixed::operator<=(const Fixed &a) const{
 	return(this->fixed_point_nb_value <= a.getRawBits());
 }
+
+
 /*----------------------------------------------------------------------------*/
 // >
 bool Fixed::operator>(const Fixed &a) const{
 	return(this->fixed_point_nb_value > a.getRawBits());
 }
+
+
 /*----------------------------------------------------------------------------*/
 //	>=
 bool Fixed::operator>=(const Fixed &a) const{
 	return(this->fixed_point_nb_value >= a.getRawBits());
 }
+
+
 /*----------------------------------------------------------------------------*/
 //	==
 bool Fixed::operator==(const Fixed &a) const{
 	return(this->fixed_point_nb_value == a.getRawBits());
 }
+
+
 /*----------------------------------------------------------------------------*/
 //	!=
 bool Fixed::operator!=(const Fixed &a) const{
 	return(this->fixed_point_nb_value != a.getRawBits());
 }
+
+
 /*----------------------------------------------------------------------------*/
 //	+
 float Fixed::operator+(const Fixed &b){
 	return (this->toFloat() + b.toFloat());
 }
+
+
 /*----------------------------------------------------------------------------*/
 //	-
 float Fixed::operator-(const Fixed &b){
 	return (this->toFloat() - b.toFloat());
 }
+
+
 /*----------------------------------------------------------------------------*/
 //	*
 float Fixed::operator*(const Fixed &b){
 	return (this->toFloat() * b.toFloat());
 }
+
+
 /*----------------------------------------------------------------------------*/
 //	/
 float Fixed::operator/(const Fixed &b){
 	return (this->toFloat() / b.toFloat());
 }
+
+
 /*----------------------------------------------------------------------------*/
 //	++(X)
 Fixed& Fixed::operator++(void){
 	this->fixed_point_nb_value++;
 	return (*this);
 }
+
+
 /*----------------------------------------------------------------------------*/
 //	--(X)
 Fixed& Fixed::operator--(void)
@@ -137,6 +161,8 @@ Fixed& Fixed::operator--(void)
 	this->fixed_point_nb_value--;
 	return (*this);
 }
+
+
 /*----------------------------------------------------------------------------*/
 //	(X)++
 Fixed Fixed::operator++(int)
@@ -145,6 +171,8 @@ Fixed Fixed::operator++(int)
 	++(*this);
 	return temp;
 }
+
+
 /*----------------------------------------------------------------------------*/
 //	(X)--
 Fixed Fixed::operator--(int)
@@ -153,68 +181,56 @@ Fixed Fixed::operator--(int)
 	--(*this);
 	return temp;
 }
-/*----------------------------------------------------------------------------*/
-
 
 
 /* ************************************************************************** */
 /*			MEMBER FUNCTIONS												  */
 /* ************************************************************************** */
-int		Fixed::getRawBits(void) const
-{
-	// std::cout<<"getRawBits member funciton called!"<<std::endl;
+
+int		Fixed::getRawBits(void) const{
 	return (fixed_point_nb_value);
 }
 
 /*----------------------------------------------------------------------------*/
-
-void	Fixed::setRawBits(int const raw)
-{
-	// std::cout<<"setRawBits member funciton called!"<<std::endl;
+void	Fixed::setRawBits(int const raw){
 	fixed_point_nb_value = raw;
 }
 
-/*----------------------------------------------------------------------------*/
 
-float	Fixed::toFloat( void ) const
-{
+/*----------------------------------------------------------------------------*/
+float	Fixed::toFloat( void ) const{
 	return(static_cast<float>(fixed_point_nb_value) / (1 << fractional_bits));
 }
 
-/*----------------------------------------------------------------------------*/
 
-int		Fixed::toInt( void ) const
-{
+/*----------------------------------------------------------------------------*/
+int		Fixed::toInt( void ) const{
 	return((fixed_point_nb_value >> fractional_bits));
+}
+
 
 /*----------------------------------------------------------------------------*/
-}
-Fixed& Fixed::min(Fixed &a, Fixed &b)
-{
+Fixed& Fixed::min(Fixed &a, Fixed &b){
 	return ((a < b) ? a : b);
 }
 
+
 /*----------------------------------------------------------------------------*/
 
-const Fixed& Fixed::min(const Fixed &a, const Fixed &b)
-{
-
+const Fixed& Fixed::min(const Fixed &a, const Fixed &b){
 	return ((a < b) ? a : b);
-	
 }
 
-/*----------------------------------------------------------------------------*/
 
-Fixed& Fixed::max(Fixed &a, Fixed &b)
-{
+/*----------------------------------------------------------------------------*/
+Fixed& Fixed::max(Fixed &a, Fixed &b){
 	return ((a > b) ? a : b);
 	
 }
 
-/*----------------------------------------------------------------------------*/
 
-const Fixed& Fixed::max(const Fixed &a, const Fixed &b)
-{
+/*----------------------------------------------------------------------------*/
+const Fixed& Fixed::max(const Fixed &a, const Fixed &b){
 	return ((a > b) ? a : b);
 }
 

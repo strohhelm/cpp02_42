@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 16:49:20 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/11/22 19:44:24 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/11/22 20:21:23 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,29 @@ int main(void)
 	std::cout <<"   a: "<<a << std::endl;
 	std::cout <<"   b: "<<b <<"\n"<< std::endl;
 	
-	std::cout << "max(a, b) "<<Fixed::max( a, b ) << std::endl;
-	std::cout << "min(a, b) "<<Fixed::min( a, b ) << std::endl;
-	std::cout << "max(a, b) "<<Fixed::max( a, b ) << std::endl;
-	std::cout << "min(a, b) "<<Fixed::min( a, b ) << std::endl;
+	std::cout << "max("<<a<<", "<<b<<"): "<<Fixed::max( a, b ) << std::endl;
+	std::cout << "min("<<a<<", "<<b<<"): "<<Fixed::min( a, b ) << std::endl;
+	std::cout << "max("<<a<<", "<<b<<"): "<<Fixed::max( a, b ) << std::endl;
+	std::cout << "min("<<a<<", "<<b<<"): "<<Fixed::min( a, b ) <<"\n"<<std::endl;
+	
+	Fixed c = 5.25f;
+	Fixed d = 4.5f;
+	std::cout<<c<<" + "<<b<<" = " <<c + b<<std::endl;
+	std::cout<<c<<" - "<<b<<" = " <<c - b<<std::endl;
+	std::cout<<c<<" * "<<b<<" = " <<c * b<<std::endl;
+	std::cout<<c<<" / "<<b<<" = " <<c / b<<"\n"<<std::endl;
+	
+	std::cout<<"max("<<c + a<<", "<< c/d<<"): "<<Fixed::max(c+a, c/d) <<std::endl;
+	std::cout<<"min("<<c<<"+"<<a<<", "<< c/d<<"): "<<Fixed::min(c+a, c/d) <<std::endl;
+	std::cout<<"min("<<c + a<<", "<< c/d<<": "<<Fixed::min(c+a, c/d)<<"\n" <<std::endl;
+	
+	std::cout<<c/d<<"\n"<<std::endl;
+	Fixed f;
+
+	std::cout<<Fixed(c/d)<<std::endl;
+	
+	std::cout<<(c/f) <<std::endl;
+
 	return 0;
 	
 }
