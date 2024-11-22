@@ -6,11 +6,11 @@
 #    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/20 11:17:57 by pstrohal          #+#    #+#              #
-#    Updated: 2024/11/20 11:51:50 by pstrohal         ###   ########.fr        #
+#    Updated: 2024/11/22 12:45:45 by pstrohal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = harlFilter
+NAME = main
 
 CC = c++
 
@@ -27,14 +27,14 @@ vpath %.d $(DEP_DIR)
 
 
 FILES =	main.cpp \
-		Harl.cpp
+		Fixed.cpp
 
 SRC = $(addprefix $(SRC_DIR)/, $(FILES))
 OBJ =	$(addprefix $(OBJ_DIR)/, $(FILES:%.cpp=%.o))
 
 DEP:= $(OBJ:.o=.d)
 DEPFLAGS = -MMD -MP
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -Werror
 INCLUDES = -I$(INC_DIR)
 
 all: $(NAME)
@@ -42,11 +42,11 @@ all: $(NAME)
 
 
 $(NAME):$(OBJ)
-	@$(CC) $^ -o $@ -g
+	@$(CC) $^ -o $@
 
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(dir $@)
-	@$(CC) $(FLAGS) $(DEPFLAGS) $(INCLUDES) -c $< -o $@ 
+	@$(CC) $(FLAGS) $(DEPFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	@rm -rf $(OBJ_DIR)

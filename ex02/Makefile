@@ -6,11 +6,11 @@
 #    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/20 11:17:57 by pstrohal          #+#    #+#              #
-#    Updated: 2024/11/20 11:51:50 by pstrohal         ###   ########.fr        #
+#    Updated: 2024/11/22 17:32:03 by pstrohal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = harlFilter
+NAME = main
 
 CC = c++
 
@@ -27,7 +27,8 @@ vpath %.d $(DEP_DIR)
 
 
 FILES =	main.cpp \
-		Harl.cpp
+		Fixed.cpp
+		
 
 SRC = $(addprefix $(SRC_DIR)/, $(FILES))
 OBJ =	$(addprefix $(OBJ_DIR)/, $(FILES:%.cpp=%.o))
