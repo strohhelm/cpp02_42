@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 11:57:01 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/11/22 16:45:45 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/11/25 12:34:32 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ Fixed::Fixed()
 Fixed::Fixed(const Fixed &Orig)
 {
 	this->fixed_point_nb_value = Orig.fixed_point_nb_value;
+	std::cout<<"Copy constructor called!"<<std::endl;
 }
 /*----------------------------------------------------------------------------*/
 // Copy assignment operator
