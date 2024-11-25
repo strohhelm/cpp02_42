@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 11:57:01 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/11/22 16:43:43 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/11/25 11:33:41 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 //Default constructor
 Fixed::Fixed()
-	:fixed_point_nb_value(0)
+	:_fixed_point_nb_value(0)
 	{
 	std::cout<<"Default constructor called"<<std::endl;
 }
@@ -25,7 +25,7 @@ Fixed::Fixed()
 
 // Int consructor
 Fixed::Fixed(const int in)
-	:fixed_point_nb_value(in * 256.0f)
+	:_fixed_point_nb_value(in * 256.0f)
 	{
 	std::cout<<"Int constructor called"<<std::endl;
 }
@@ -34,7 +34,7 @@ Fixed::Fixed(const int in)
 //Float constructor
 Fixed::Fixed(const float input)
 {
-	fixed_point_nb_value = static_cast<int>(round(input * 256));
+	_fixed_point_nb_value = static_cast<int>(round(input * 256));
 	std::cout<<"Float constructor called"<<std::endl;
 }
 /*----------------------------------------------------------------------------*/
@@ -50,7 +50,7 @@ Fixed::Fixed(const Fixed &orig)
 Fixed& Fixed::operator=(const Fixed &orig)
 {
 	if (this != &orig)
-		fixed_point_nb_value = orig.getRawBits();
+		_fixed_point_nb_value = orig.getRawBits();
 	std::cout<<"Copy assignment operator called!"<<std::endl;
 	return *this;
 }
@@ -77,7 +77,7 @@ Fixed::~Fixed()
 int		Fixed::getRawBits(void) const
 {
 	std::cout<<"getRawBits member funciton called!"<<std::endl;
-	return (fixed_point_nb_value);
+	return (_fixed_point_nb_value);
 }
 
 /*----------------------------------------------------------------------------*/
@@ -85,19 +85,19 @@ int		Fixed::getRawBits(void) const
 void	Fixed::setRawBits(int const raw)
 {
 	std::cout<<"setRawBits member funciton called!"<<std::endl;
-	fixed_point_nb_value = raw;
+	_fixed_point_nb_value = raw;
 }
 
 /*----------------------------------------------------------------------------*/
 
 float	Fixed::toFloat( void ) const
 {
-	return(static_cast<float>(fixed_point_nb_value) / (1 << fractional_bits));
+	return(static_cast<float>(_fixed_point_nb_value) / (1 << _fractional_bits));
 }
 
 /*----------------------------------------------------------------------------*/
 
 int		Fixed::toInt( void ) const
 {
-	return((fixed_point_nb_value >> fractional_bits));
+	return((_fixed_point_nb_value >> _fractional_bits));
 }

@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 11:37:31 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/11/22 12:11:11 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/11/25 10:41:16 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ class Fixed
 	private:
 		int	fixed_point_nb_value;
 		static const int fractional_bits = 8;
-		
-	
 };
 
 #endif

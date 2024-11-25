@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 11:57:01 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/11/22 20:29:28 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/11/25 12:11:20 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 //Default constructor
 Fixed::Fixed()
-	:fixed_point_nb_value(0)
+	:_fixed_point_nb_value(0)
 	{
 	// std::cout<<"Default constructor called"<<std::endl;
 }
@@ -26,8 +26,12 @@ Fixed::Fixed()
 
 // Int consructor
 Fixed::Fixed(const int in)
-	:fixed_point_nb_value(in * 256.0f)
-	{
+{
+	if ((in < INTMIN / (1 << _fractional_bits)) || (in > INTMAX / (1 << _fractional_bits))){
+		std::cout<<"INT overflow!"<<std::endl;
+			std::exit(1);
+	}
+	_fixed_point_nb_value = in * (1 << _fractional_bits);
 	// std::cout<<"Int constructor called"<<std::endl;
 }
 /*----------------------------------------------------------------------------*/
@@ -35,7 +39,11 @@ Fixed::Fixed(const int in)
 //Float constructor
 Fixed::Fixed(const float input)
 {
-	fixed_point_nb_value = static_cast<int>(round(input * (1<<fractional_bits)));
+	if ((input < round(INTMINF / (1<<_fractional_bits))) || (input > round(INTMAXF / (1<<_fractional_bits)))){
+		std::cout<<"INT overflow!"<<std::endl;
+			std::exit(1);
+	}
+	_fixed_point_nb_value = static_cast<int>(round(input * (1 << _fractional_bits)));
 	// std::cout<<"Float constructor called"<<std::endl;
 }
 /*----------------------------------------------------------------------------*/
@@ -63,7 +71,7 @@ Fixed::~Fixed()
 Fixed& Fixed::operator=(const Fixed &orig)
 {
 	if (this != &orig)
-		fixed_point_nb_value = orig.getRawBits();
+		_fixed_point_nb_value = orig.getRawBits();
 	// std::cout<<"Copy assignment operator called!"<<std::endl;
 	return *this;
 }
@@ -79,77 +87,81 @@ std::ostream &operator<<(std::ostream &ostream, const Fixed &orig)
 /*----------------------------------------------------------------------------*/
 //	<
 bool Fixed::operator<(const Fixed &a) const{
-	return(this->fixed_point_nb_value < a.getRawBits());
+	return(this->_fixed_point_nb_value < a.getRawBits());
 }
 
 
 /*----------------------------------------------------------------------------*/
 //	<=
 bool Fixed::operator<=(const Fixed &a) const{
-	return(this->fixed_point_nb_value <= a.getRawBits());
+	return(this->_fixed_point_nb_value <= a.getRawBits());
 }
 
 
 /*----------------------------------------------------------------------------*/
 // >
 bool Fixed::operator>(const Fixed &a) const{
-	return(this->fixed_point_nb_value > a.getRawBits());
+	return(this->_fixed_point_nb_value > a.getRawBits());
 }
 
 
 /*----------------------------------------------------------------------------*/
 //	>=
 bool Fixed::operator>=(const Fixed &a) const{
-	return(this->fixed_point_nb_value >= a.getRawBits());
+	return(this->_fixed_point_nb_value >= a.getRawBits());
 }
 
 
 /*----------------------------------------------------------------------------*/
 //	==
 bool Fixed::operator==(const Fixed &a) const{
-	return(this->fixed_point_nb_value == a.getRawBits());
+	return(this->_fixed_point_nb_value == a.getRawBits());
 }
 
 
 /*----------------------------------------------------------------------------*/
 //	!=
 bool Fixed::operator!=(const Fixed &a) const{
-	return(this->fixed_point_nb_value != a.getRawBits());
+	return(this->_fixed_point_nb_value != a.getRawBits());
 }
 
 
 /*----------------------------------------------------------------------------*/
 //	+
-float Fixed::operator+(const Fixed &b){
-	return (this->toFloat() + b.toFloat());
+Fixed Fixed::operator+(const Fixed &b){
+	return Fixed(this->toFloat() + b.toFloat());
 }
 
 
 /*----------------------------------------------------------------------------*/
 //	-
-float Fixed::operator-(const Fixed &b){
-	return (this->toFloat() - b.toFloat());
+Fixed Fixed::operator-(const Fixed &b){
+	return Fixed(this->toFloat() - b.toFloat());
 }
 
 
 /*----------------------------------------------------------------------------*/
 //	*
-float Fixed::operator*(const Fixed &b){
-	return (this->toFloat() * b.toFloat());
+Fixed Fixed::operator*(const Fixed &b){
+	return Fixed(this->toFloat() * b.toFloat());
 }
 
 
 /*----------------------------------------------------------------------------*/
 //	/
-float Fixed::operator/(const Fixed &b){
-	return (this->toFloat() / b.toFloat());
+Fixed Fixed::operator/(const Fixed &b){
+	if (b.getRawBits() == 0){
+		std::cout<<"Hola hopa! thats a division by 0. Not a good idea!"<<std::endl;
+		std::exit(1);
+	}
+	return Fixed(this->toFloat() / b.toFloat());
 }
 
 
 /*----------------------------------------------------------------------------*/
 //	++(X)
 Fixed& Fixed::operator++(void){
-	this->fixed_point_nb_value++;
+	this->_fixed_point_nb_value++;
 	return (*this);
 }
 
@@ -158,7 +170,7 @@ Fixed& Fixed::operator++(void){
 //	--(X)
 Fixed& Fixed::operator--(void)
 {
-	this->fixed_point_nb_value--;
+	this->_fixed_point_nb_value--;
 	return (*this);
 }
 
@@ -188,24 +200,24 @@ Fixed Fixed::operator--(int)
 /* ************************************************************************** */
 
 int		Fixed::getRawBits(void) const{
-	return (fixed_point_nb_value);
+	return (_fixed_point_nb_value);
 }
 
 /*----------------------------------------------------------------------------*/
 void	Fixed::setRawBits(int const raw){
-	fixed_point_nb_value = raw;
+	_fixed_point_nb_value = raw;
 }
 
 
 /*----------------------------------------------------------------------------*/
 float	Fixed::toFloat( void ) const{
-	return(static_cast<float>(fixed_point_nb_value) / (1 << fractional_bits));
+	return(static_cast<float>(_fixed_point_nb_value) / (1 << _fractional_bits));
 }
 
 
 /*----------------------------------------------------------------------------*/
 int		Fixed::toInt( void ) const{
-	return((fixed_point_nb_value >> fractional_bits));
+	return((_fixed_point_nb_value >> _fractional_bits));
 }
 
 

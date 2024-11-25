@@ -6,12 +6,16 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 11:37:31 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/11/22 18:18:45 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/11/25 11:56:10 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FIXED_HPP
 #define FIXED_HPP
+#define INTMIN -2147483648
+#define INTMAX  2147483647
+#define INTMINF -2147483648.0
+#define INTMAXF  2147483647.0
 
 #include <iostream>
 #include <cmath>
@@ -38,10 +42,10 @@ class Fixed
 		bool operator==(const Fixed &a) const;
 		bool operator!=(const Fixed &a) const;
 
-		float operator+(const Fixed &b);
-		float operator-(const Fixed &b);
-		float operator*(const Fixed &b);
-		float operator/(const Fixed &b);
+		Fixed operator+(const Fixed &b);
+		Fixed operator-(const Fixed &b);
+		Fixed operator*(const Fixed &b);
+		Fixed operator/(const Fixed &b);
 		Fixed& operator++(void);
 		Fixed& operator--(void);
 		Fixed operator++(int);
@@ -57,11 +61,10 @@ class Fixed
 		void	setRawBits(int const raw);
 		float	toFloat( void ) const;
 		int		toInt( void ) const;
+
 	private:
-		int	fixed_point_nb_value;
-		static const int fractional_bits = 8;
-		
-	
+		int	_fixed_point_nb_value;
+		static const int _fractional_bits = 8;
 };
 
 #endif

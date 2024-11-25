@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 16:49:20 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/11/22 20:21:23 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/11/25 12:09:10 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,14 @@ int main(void)
 	std::cout<<"min("<<c + a<<", "<< c/d<<": "<<Fixed::min(c+a, c/d)<<"\n" <<std::endl;
 	
 	std::cout<<c/d<<"\n"<<std::endl;
-	Fixed f;
-
 	std::cout<<Fixed(c/d)<<std::endl;
 	
-	std::cout<<(c/f) <<std::endl;
+	std::cout<<"int min int max test:"<<std::endl;
+	Fixed f = 8388607;
+	std::cout<<f <<std::endl;
+	Fixed g = 8388607.0f;
+	std::cout<<g <<std::endl;
+	std::cout<<c/Fixed()<<"\n"<<std::endl;
 
 	return 0;
 	
