@@ -6,15 +6,16 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 11:57:01 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/11/25 11:33:41 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/11/25 12:25:25 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Fixed.hpp"
 
 /* ************************************************************************** */
-/*		CONSTRUCTORS, DESTRUCTORS, ASSIGNMENT OPERATORS
-*/
+/*		CONSTRUCTORS, DESTRUCTORS, ASSIGNMENT OPERATORS						  */
+/* ************************************************************************** */
+
 //Default constructor
 Fixed::Fixed()
 	:_fixed_point_nb_value(0)
@@ -25,17 +26,25 @@ Fixed::Fixed()
 
 // Int consructor
 Fixed::Fixed(const int in)
-	:_fixed_point_nb_value(in * 256.0f)
-	{
-	std::cout<<"Int constructor called"<<std::endl;
+{
+	if ((in < INTMIN / (1 << _fractional_bits)) || (in > INTMAX / (1 << _fractional_bits))){
+		std::cout<<"INT overflow!"<<std::endl;
+			std::exit(1);
+	}
+	_fixed_point_nb_value = in * (1 << _fractional_bits);
+	// std::cout<<"Int constructor called"<<std::endl;
 }
 /*----------------------------------------------------------------------------*/
 
 //Float constructor
 Fixed::Fixed(const float input)
 {
-	_fixed_point_nb_value = static_cast<int>(round(input * 256));
-	std::cout<<"Float constructor called"<<std::endl;
+	if ((input < round(INTMINF / (1<<_fractional_bits))) || (input > round(INTMAXF / (1<<_fractional_bits)))){
+		std::cout<<"INT overflow!"<<std::endl;
+			std::exit(1);
+	}
+	_fixed_point_nb_value = static_cast<int>(round(input * (1 << _fractional_bits)));
+	// std::cout<<"Float constructor called"<<std::endl;
 }
 /*----------------------------------------------------------------------------*/
 
@@ -71,15 +80,14 @@ Fixed::~Fixed()
 }
 
 /* ************************************************************************** */
-/*		MEMBER FUNCTIONS
-*/
+/*		MEMBER FUNCTIONS													  */
+/* ************************************************************************** */
 
 int		Fixed::getRawBits(void) const
 {
 	std::cout<<"getRawBits member funciton called!"<<std::endl;
 	return (_fixed_point_nb_value);
 }
-
 /*----------------------------------------------------------------------------*/
 
 void	Fixed::setRawBits(int const raw)
@@ -87,14 +95,12 @@ void	Fixed::setRawBits(int const raw)
 	std::cout<<"setRawBits member funciton called!"<<std::endl;
 	_fixed_point_nb_value = raw;
 }
-
 /*----------------------------------------------------------------------------*/
 
 float	Fixed::toFloat( void ) const
 {
 	return(static_cast<float>(_fixed_point_nb_value) / (1 << _fractional_bits));
 }
-
 /*----------------------------------------------------------------------------*/
 
 int		Fixed::toInt( void ) const

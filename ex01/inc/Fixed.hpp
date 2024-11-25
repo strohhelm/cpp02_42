@@ -6,12 +6,16 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 11:37:31 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/11/25 11:33:16 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/11/25 12:23:01 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FIXED_HPP
 #define FIXED_HPP
+#define INTMIN -2147483648
+#define INTMAX  2147483647
+#define INTMINF -2147483648.0f
+#define INTMAXF  2147483647.0f
 
 #include <iostream>
 #include <cmath>
